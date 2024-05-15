@@ -18,8 +18,8 @@ def register(request):
         form = forms.UserRegisterForm()
     return render(request, 'calci/register.html', {'form':form})
 
-def room(request):
-    return render(request, 'calci/room.html')
+
+
 
 def logoutcall(request):
     logout(request)

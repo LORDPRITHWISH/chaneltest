@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 LOGIN_URL = '/login'
-LOGIN_REDIRECT_URL = '/calci-room'
+LOGIN_REDIRECT_URL = '/rooms'
 LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
@@ -36,6 +36,7 @@ LOGOUT_REDIRECT_URL = '/'
 INSTALLED_APPS = [
     'channels',
     'calci.apps.CalciConfig',
+    'rooms.apps.RoomsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
