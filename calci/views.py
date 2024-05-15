@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from . import forms
 
 def home(request):
-    return render(request, 'calci/home.html')
+    return render(request, 'calci/home.html', {'title':'Home'})
 
 def register(request):
     if request.method == 'POST':
@@ -16,7 +16,7 @@ def register(request):
     else:
         print("Form is not at all valid")
         form = forms.UserRegisterForm()
-    return render(request, 'calci/register.html', {'form':form})
+    return render(request, 'calci/register.html', {'form':form, 'title':'Register'})
 
 
 

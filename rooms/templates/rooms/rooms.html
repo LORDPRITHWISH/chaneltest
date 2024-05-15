@@ -8,7 +8,7 @@
                 <h3 class="card-title">{{room.name}}</h5>
                     <p class="card-text">{{ room.slug }}</p>
                     <div class="d-flex justify-content-between">
-                        <a href="#" class="btn btn-primary">JOIN</a>
+                        <a href="{% url 'room' room.slug %}" class="btn btn-primary">JOIN</a>
                     </div>
                 </h3>
             </div>

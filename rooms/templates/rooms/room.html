@@ -1,0 +1,23 @@
+{% extends "calci/base.html" %}
+{% block content %}
+<h1>WELCOME TO {{room.name}}</h1>
+<p>   code :  {{room.slug}}</p>
+
+{% for room in rooms %}
+<div class="ronie p-3 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-3 ">
+    <div class="card p-3 text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 lord">
+        <div class="card-body">
+            <h3 class="card-title">{{room.name}}</h5>
+                <p class="card-text">{{ room.slug }}</p>
+                <div class="d-flex justify-content-between">
+                    <a href="#" class="btn btn-primary">JOIN</a>
+                </div>
+            </h3>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock content %}
+
+
+<!-- {% url 'rooms:room' room.id %} -->

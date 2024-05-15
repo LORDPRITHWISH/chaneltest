@@ -4,8 +4,9 @@ from .models import Room
 
 @login_required
 def rooms(request):
-    rom = Room.objects.all()
-    return render(request, 'rooms/rooms.html', {'rooms':rom})
+    roms = Room.objects.all()
+    return render(request, 'rooms/rooms.html', {'rooms':roms,'title':'Rooms'})
 
 def room(request,slug):
-    return render(request, 'rooms/room.html')
+    rom = Room.objects.get(slug=slug)
+    return render(request, 'rooms/room.html', {'room':rom,'title':rom.name})
