@@ -2,22 +2,32 @@
 {% block content %}
 <h1>WELCOME TO {{room.name}}</h1>
 <p>   code :  {{room.slug}}</p>
-
-{% for room in rooms %}
-<div class="ronie p-3 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-3 ">
-    <div class="card p-3 text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 lord">
-        <div class="card-body">
-            <h3 class="card-title">{{room.name}}</h5>
-                <p class="card-text">{{ room.slug }}</p>
-                <div class="d-flex justify-content-between">
-                    <a href="#" class="btn btn-primary">JOIN</a>
-                </div>
-            </h3>
-        </div>
-    </div>
-</div>
-{% endfor %}
+<div class="d-flex justify-content-between">
+    
 {% endblock content %}
 
+{% block script %}
 
-<!-- {% url 'rooms:room' room.id %} -->
+{{room.slug|json_script:"json-roomname"}}
+<script>
+    const roomName = JSON.parse(document.getElementById('json-roomnme').textContent)
+    const chatSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/'
+        + roomName
+        + '/'
+    );
+
+    chatSocket.onmessage = function(e) {
+        // const data = JSON.parse(e.data);
+        // console.log(data);
+        console.log('onmessage');
+    };
+
+    chatSocket.onclose = function(e) {
+        console.log('Chat socket closed ');
+    };
+
+</script>
+{%endblock%}

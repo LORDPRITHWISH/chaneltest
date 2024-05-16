@@ -30,7 +30,11 @@ ALLOWED_HOSTS = []
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/rooms'
 LOGOUT_REDIRECT_URL = '/'
-
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
 # Application definition
 
 INSTALLED_APPS = [

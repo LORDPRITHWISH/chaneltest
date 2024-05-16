@@ -13,8 +13,9 @@ def register(request):
             user = form.save()
             login(request, user)
             return redirect('calci-home')
-    else:
         print("Form is not at all valid")
+    else:
+        print("ist entry time")
         form = forms.UserRegisterForm()
     return render(request, 'calci/register.html', {'form':form, 'title':'Register'})
 
