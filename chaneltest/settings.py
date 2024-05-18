@@ -30,15 +30,17 @@ ALLOWED_HOSTS = []
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/rooms'
 LOGOUT_REDIRECT_URL = '/'
+
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'channels.layers.InMemoryChannelLayer'
-    }
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
 }
 # Application definition
 
 INSTALLED_APPS = [
     'channels',
+    'daphne',
     'calci.apps.CalciConfig',
     'rooms.apps.RoomsConfig',
     'django.contrib.admin',
@@ -78,8 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'chaneltest.wsgi.application'
-# ASGI_APPLICATION = 'chaneltest.asgi.application'
-
+ASGI_APPLICATION = 'chaneltest.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

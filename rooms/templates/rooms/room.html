@@ -2,15 +2,39 @@
 {% block content %}
 <h1>WELCOME TO {{room.name}}</h1>
 <p>   code :  {{room.slug}}</p>
-<div class="d-flex justify-content-between">
+<div id="chat-area" class="container">
+    {% for message in messages %}
+    <div class="card">
+        <div class="card-header">{{message.user.username}}</div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+                <p> {{message.content}}</p>
+                <footer class="blockquote-footer">at <cite title="Source Title">{{message.created}}</cite></footer>
+            </blockquote>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+<div id="chat-message-form" class="input-group">
+    <input id="chat-message-input" type="text" class="form-control" size="100">
+    <div class="input-group-append">
+        <button id="chat-message-submit" type="button" class="btn btn-primary">Send</button>
+    </div>
+</div>
+
     
 {% endblock content %}
 
 {% block script %}
 
 {{room.slug|json_script:"json-roomname"}}
+{{request.user.username|json_script:"json-username"}}
 <script>
+
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent)
+    const UserName = JSON.parse(document.getElementById('json-username').textContent)
     const chatSocket = new WebSocket(
         'ws://'
         + window.location.host
@@ -20,14 +44,43 @@
     );
 
     chatSocket.onmessage = function(e) {
-        // const data = JSON.parse(e.data);
+        console.log('message received');
+        const data = JSON.parse(e.data);
+        if (data['message']) {
+            bloc = `<div class="card">
+                        <div class="card-header">${data.username}</div>
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0"><p> ${data.message}</p>
+                                <footer class="blockquote-footer">at <cite title="Source Title">${data.time}</cite></footer>
+                            </blockquote>
+                        </div>
+                    </div>`
+            // document.getElementById('chat-log').innerHTML += bloc;
+            document.getElementById('chat-area').innerHTML += bloc;
+        }
         // console.log(data);
-        console.log('onmessage');
     };
 
     chatSocket.onclose = function(e) {
         console.log('Chat socket closed ');
     };
 
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        e.preventDefault();
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        chatSocket.send(JSON.stringify({
+            'message': message,
+            'username': UserName,
+            'room': roomName,
+            'time': new Date().toLocaleTimeString()
+        }));
+        messageInputDom.value = '';
+        return false;
+    };
+
 </script>
-{%endblock%}
+{%endblock script%}
+
+
+

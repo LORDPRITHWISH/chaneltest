@@ -8,11 +8,12 @@ import rooms.routing
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chaneltest.settings')
 
+
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": AuthMiddlewareStack(
         URLRouter(
-            rooms.routing.websocket_urlpatterns
+            rooms.routing.WebSocket_urlpatterns
         )
     ),
 })

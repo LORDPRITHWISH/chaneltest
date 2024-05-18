@@ -1,6 +1,7 @@
+from re import M
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .models import Room
+from .models import Room, Message
 
 @login_required
 def rooms(request):
@@ -9,4 +10,5 @@ def rooms(request):
 
 def room(request,slug):
     rom = Room.objects.get(slug=slug)
-    return render(request, 'rooms/room.html', {'room':rom,'title':rom.name})
+    mess = Message.objects.filter(room=rom)
+    return render(request, 'rooms/room.html', {'room':rom,'title':rom.name,'messages':mess})
