@@ -1,11 +1,12 @@
 {% extends "calci/base.html" %}
 {% block content %}
 <p>ROOMS page</p>
+<div id="chat-area" class="container overflow-y-auto " style="height: 80%;">
     {% for room in rooms %}
-    <div class="ronie p-3 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-3 ">
-        <div class="card p-3 text-info-emphasis bg-info-subtle border border-info-subtle rounded-3 lord">
+    <div class="p-3 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-3">
+        <div class="card p-3 text-info-emphasis bg-info-subtle border border-info-subtle rounded-3">
             <div class="card-body">
-                <h3 class="card-title">{{room.name}}</h5>
+                <h3 class="card-title">{{room.name}}</h3>
                     <p class="card-text">{{ room.slug }}</p>
                     <div class="d-flex justify-content-between">
                         <a href="{% url 'room' room.slug %}" class="btn btn-primary">JOIN</a>
@@ -15,6 +16,7 @@
         </div>
     </div>
     {% endfor %}
+</div>
 {% endblock content %}
 
 

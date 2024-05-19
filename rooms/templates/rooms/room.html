@@ -2,7 +2,7 @@
 {% block content %}
 <h1>WELCOME TO {{room.name}}</h1>
 <p>   code :  {{room.slug}}</p>
-<div id="chat-area" class="container">
+<div id="chat-area" class="container overflow-y-auto " style="height: 65%;" >
     {% for message in messages %}
     <div class="card">
         <div class="card-header">{{message.user.username}}</div>
@@ -14,15 +14,15 @@
         </div>
     </div>
     {% endfor %}
-
 </div>
-
-<div id="chat-message-form" class="input-group">
-    <input id="chat-message-input" type="text" class="form-control" size="100">
-    <div class="input-group-append">
-        <button id="chat-message-submit" type="button" class="btn btn-primary">Send</button>
+<form>
+    <div id="chat-message-form" class="input-group fixed-bottom">
+        <input id="chat-message-input" type="text" class="form-control" size="100">
+        <div class="input-group-append">
+            <button id="chat-message-submit" type="submit" class="btn btn-primary">Send</button>
+        </div>
     </div>
-</div>
+</form>
 
     
 {% endblock content %}
@@ -35,6 +35,9 @@
 
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent)
     const UserName = JSON.parse(document.getElementById('json-username').textContent)
+    const chatArea = document.getElementById('chat-area')
+    chatArea.scrollTop = chatArea.scrollHeight;
+
     const chatSocket = new WebSocket(
         'ws://'
         + window.location.host
@@ -57,6 +60,12 @@
                     </div>`
             // document.getElementById('chat-log').innerHTML += bloc;
             document.getElementById('chat-area').innerHTML += bloc;
+            if(UserName === data.username)
+            chatArea.scrollTop = chatArea.scrollHeight;
+            // {
+            //     chatArea.scrollTop = chatArea.scrollHeight;
+            //     console.log(UserName, data.username)
+            // }
         }
         // console.log(data);
     };
