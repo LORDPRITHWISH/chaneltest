@@ -1,9 +1,14 @@
 {% extends "calci/base.html" %}
 {% block content %}
-    <p>home page</p>
-    {% if request.user.is_authenticated %}
-    <h2>Welcome {{request.user.username}}</h2>
-    {% else %}
-    <h2>HI LOGIN TO CONTINUE MOTHERFUKER</h2>
-    {% endif %}
-    {% endblock content %}
+<p class="d-flex justify-content-center fw-bold h2 text-primary-emphasis opacity-25">INTODUCING</p>
+<p class="d-flex justify-content-center display-1">🎮 THE DARK ROOMS 🎮</p>
+<br>
+<br>
+{% if request.user.is_authenticated %}
+<p class="d-flex justify-content-center display-1" style="font-size: 1500%;">⚡</p>
+<p class="d-flex justify-content-center fw-bold h1" style="font-size: 500%;">Welcome {{request.user.username}}</p>
+{% else %}
+<p class="d-flex justify-content-center display-1" style="font-size: 1500%;">💀</p>
+<p class="d-flex justify-content-center fw-bold h1">HI LOGIN TO CONTINUE MOTHERFUKER</p>
+{% endif %}
+{% endblock content %}
