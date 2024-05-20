@@ -87,10 +87,13 @@ ASGI_APPLICATION = 'chaneltest.asgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'chatbase',
+        'USER': 'darklord',
+        'PASSWORD': 'lord2004',
+        'HOST': 'localhost',
+        'PORT': '',
+    }}
 
 
 # Password validation
