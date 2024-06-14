@@ -2,47 +2,81 @@
 {% load static %}
 {% block content %}
 
-<div class="d-flex justify-content-between align-items-center" id="locbase" style="width: 100%;">
-    <h3>WELCOME TO {{ room.name }}</h3>
-    <div class="btn-group ms-auto" style="right: 5%;">
-        <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            MEMBERS
+<div class="d-flex justify-content-between align-items-center" id="locbase" style="width: 100%; padding-top: 1%; padding-bottom: 0%;">
+    <h3 style=" padding-top: 0%; padding-bottom: 0%;">WELCOME TO {{ room.name }}</h3>
+    <button class="btn btn-primary" style="display: inline; margin-left: 2%;" onclick="copyToClipboard('{{room.slug}}')"> code :
+        {{room.slug}}</button>
+    <div class="btn-group ms-auto" style="right: 5%;  padding-top: 0%; padding-bottom: 0%;">
+        <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="padding-top: 0%; padding-bottom: 1%;">
+            ONLINE : <span id="online" style="display: inline; padding-left: 5%;">{{online}}</span>
         </button>
         <ul class="dropdown-menu" id="members">
             {% for member in members %}
-            <li><a class="dropdown-item" href="#">{{ member.user.username }}</a></li>
+            <li><a class="dropdown-item" href="{% url 'profile' member.user.username %}">{{ member.user.username }}</a></li>
             {% endfor %}
         </ul>
     </div>
 </div>
-
-<div class="d-flex" id="locbase">
-    <p class="d-flex" style="display: inline;"> code : {{room.slug}}</p>
-    <p class="d-flex" style="display: inline; margin-left:5%;"> online:
-    <p id="online" class="d-flex" style="display: inline;">{{online}}</p></p>
-</div>
-<div id="chat-area" class="container overflow-y-auto " style="height: 75%;" >
-    {% for message in messages %}
-    <div class="card">
-        <div class="card-header">{{message.user.username}}</div>
-        <div class="card-body">
-            <blockquote class="blockquote mb-0">
-                <p> {{message.content}}</p>
-                <footer class="blockquote-footer">at <cite title="Source Title">{{message.created}}</cite></footer>
-            </blockquote>
+<div style="border-top: 2px solid #00d9ff; width: 100%; margin-top: 0.5%; margin-bottom: 0%; height: 79%;" class="d-flex">
+    <div class="w-25" style="height: 100%;">
+        <div id="room-area" class="container overflow-y-auto " style="height: 100%;">
+                <a class=" h1 w-100 btn btn-primary rounded-4" href="{% url 'calci-room' %}" style="font: 2em sans-serif;">🏠 ROOMS 🏠</a>
+            {% for room in rooms %}
+                <div class="w-100 card text-primary-emphasis bg-info-subtle border-primary-subtle mb-1 rounded-4">
+                    <div class="card-body ">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">{{room.name}}</h5>
+                            <p class="card-text">{{ room.slug }}</p>
+                        </div>
+                        <a href="{% url 'room' room.slug %}" class="btn btn-primary">JOIN</a>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </div>
-    {% endfor %}
-</div>
-<form>
-    <div id="chat-message-form" class="input-group fixed-bottom">
-        <input id="chat-message-input" type="text" class="form-control" size="100">
-        <div class="input-group-append">
-            <button id="chat-message-submit" type="submit" class="btn btn-primary">Send</button>
+    <div class="vr"></div>
+    <div class="w-75" style="height: 100%;" >
+        <div id="chat-area" class="overflow-y-auto " style="height: 100%; width: 100%;" >
+            {% for message in messages %}
+            <div class="p-1" style="margin-inline: 1%;">
+                {% if message.user.username == request.user.username %}
+                <div class="d-flex justify-content-end">
+                    <div class="card text-end text-primary-emphasis " style="background-color: rgb(12, 0, 82); width: max-content; min-width: 15%; max-width: 75%;">
+                        <div class="card-header" style="padding: 0.5%;padding-left: 2%;font-size: smaller;">{{message.user.username}}</div>
+                        <div class="card-body" style="padding: 2%;">
+                            <blockquote class="blockquote mb-0">
+                                <p> {{message.content}}</p>
+                                <footer class="blockquote-footer" style="font-size: 50%;">at <cite title="Source Title">{{message.created}}</cite></footer>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="d-flex justify-content-start">
+                    <div class="card text-success-emphasis " style="background-color: rgb(0, 47, 85); width: max-content; min-width: 15%; max-width: 75%;">
+                        <div class="card-header"style="padding: 0.5%;padding-left: 2%;font-size: smaller;">{{message.user.username}}</div>
+                        <div class="card-body"style="padding: 2%;">
+                            <blockquote class="blockquote mb-0">
+                                <p> {{message.content}}</p>
+                                <footer class="blockquote-footer" style="font-size: 50%;"">at <cite title="Source Title">{{message.created}}</cite></footer>
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
         </div>
+        <form>
+            <div id="chat-message-form" class="input-group">
+                <input id="chat-message-input" type="text" class="form-control" size="100">
+                <div class="input-group-append">
+                    <button id="chat-message-submit" type="submit" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
-
+</div>
     
 {% endblock content %}
 

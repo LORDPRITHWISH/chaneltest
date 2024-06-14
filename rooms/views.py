@@ -5,6 +5,10 @@ from .models import Room, Message, Join
 
 @login_required
 def rooms(request):
+    if request.method == 'POST':
+        name = request.POST['romname']
+        rom = Room.objects.create(name=name)
+        rom.save()
     roms = Room.objects.all()
     return render(request, 'rooms/rooms.html', {'rooms':roms,'title':'Rooms'})
 
@@ -14,4 +18,5 @@ def room(request,slug):
     mess = Message.objects.filter(room=rom)
     mem = Join.objects.filter(room=rom)
     onli = mem.count()
-    return render(request, 'rooms/room.html', {'room':rom,'title':rom.name,'messages':mess,'members':mem,'online':onli})
+    roms = Room.objects.all()
+    return render(request, 'rooms/room.html', {'rooms':roms,'room':rom,'title':rom.name,'messages':mess,'members':mem,'online':onli})

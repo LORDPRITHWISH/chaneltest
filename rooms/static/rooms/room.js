@@ -27,7 +27,7 @@ const chatSocket = new WebSocket(
     if (not) {
         console.log('hi ', UserName)
         online.textContent = parseInt(online.textContent) + 1;
-        members.innerHTML += `<li><a class="dropdown-item" href="#">${UserName}</a></li>`
+        members.innerHTML += `<li><a class="dropdown-item" href="/profile@${UserName}/">${UserName}</a></li>`
     }
 })();
 
@@ -38,21 +38,43 @@ chatSocket.onmessage = function (e) {
 
 
     if (data['message']) {
-        bloc = `<div class="card">
-                <div class="card-header">${data.username}</div>
-                <div class="card-body">
-                    <blockquote class="blockquote mb-0"><p> ${data.message}</p>
-                        <footer class="blockquote-footer">at <cite title="Source Title">${data.time}</cite></footer>
-                        </blockquote>
+        if (data.username === UserName) {
+            bloc = `<div class="p-1"><div class="d-flex justify-content-end">
+                        <div class="card text-end text-primary-emphasis " style="background-color: rgb(12, 0, 82); width: max-content; min-width: 15%; max-width: 45%;">
+                            <div class="card-header" style="padding: 0.5%;padding-left: 2%;font-size: smaller;">${data.username}</div>
+                                <div class="card-body" style="padding: 2%;">
+                                    <blockquote class="blockquote mb-0">
+                                        <p> ${data.message} </p>
+                                        <footer class="blockquote-footer" style="font-size: 50%;">at <cite title="Source Title">${data.time}/cite></footer>
+                                    </blockquote>
+                                </div>
+                            </div>
                         </div>
-                        </div>`
+                    </div>`
+        }
+
+        else {
+
+            bloc = `<div class="p-1"><div class="d-flex justify-content-start">
+                        <div class="card text-success-emphasis " style="background-color: rgb(0, 47, 85); width: max-content; min-width: 15%; max-width: 45%;">
+                            <div class="card-header"style="padding: 0.5%;padding-left: 2%;font-size: smaller;">${data.username}</div>
+                                <div class="card-body"style="padding: 2%;">
+                                    <blockquote class="blockquote mb-0">
+                                        <p> ${data.message} </p>
+                                        <footer class="blockquote-footer" style="font-size: 50%;"">at <cite title="Source Title">${data.time}</cite></footer>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`
+        }
         document.getElementById('chat-area').innerHTML += bloc;
         if (UserName === data.username)
             chatArea.scrollTop = chatArea.scrollHeight;
     }
     if (data['newuser']) {
         online.textContent = parseInt(online.textContent) + 1;
-        members.innerHTML += `<li><a class="dropdown-item" href="#">${data['newuser']}</a></li>`
+        members.innerHTML += `<li><a class="dropdown-item" href="/profile@${data['newuser']}/">${data['newuser']}</a></li>`
         let newDiv = document.createElement('div');
         newDiv.innerHTML += `<div class="alert alert-success" role="alert" style="position: fixed; top: 10%; left: 50%; transform: translateX(-50%);">
                         ${data['newuser']} joined the room</div>`;
@@ -93,3 +115,14 @@ document.querySelector('#chat-message-submit').onclick = function (e) {
     messageInputDom.value = '';
     return false;
 };
+
+
+
+
+
+
+
+
+
+
+

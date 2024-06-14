@@ -1,23 +1,42 @@
 {% extends "calci/base.html" %}
 {% block content %}
-<p>ROOMS page</p>
-<div id="chat-area" class="container overflow-y-auto " style="height: 80%;">
-    {% for room in rooms %}
-    <div class="p-3 text-dark-emphasis bg-dark-subtle border border-dark-subtle rounded-3">
-        <div class="card p-3 text-info-emphasis bg-info-subtle border border-info-subtle rounded-3">
-            <div class="card-body">
-                <h3 class="card-title">{{room.name}}</h3>
-                    <p class="card-text">{{ room.slug }}</p>
-                    <div class="d-flex justify-content-between">
-                        <a href="{% url 'room' room.slug %}" class="btn btn-primary">JOIN</a>
-                    </div>
-                </h3>
+<div class="d-flex justify-content-between p-4">
+    <p class="h1 mb-3">ENTER INTO ROOMS </p>
+    <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle mb-3" data-bs-toggle="dropdown" aria-expanded="false"
+            data-bs-auto-close="outside">
+            Create Room
+        </button>
+        <form class="dropdown-menu p-4" method="POST">
+            {% csrf_token %}
+            <div class="mb-3 " style="width: max-content;">
+                <label for="roomname" class="form-label">Enter Room Name </label>
+                <input type="text" class="form-control" id="roomname" placeholder="DARKROOM" name="romname">
             </div>
-        </div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
     </div>
-    {% endfor %}
+</div>
+<div id="chat-area" class="container overflow-y-auto " style="height: 80%;">
+    <div class="row g-3">
+        {% for room in rooms %}
+            <div class="col-md-6">
+                <div class="p-3 bg-dark w-75 mb-3 border-primary-subtle rounded-4">
+                <div class="card text-primary-emphasis bg-info-subtle mb-1 rounded-4">
+                        <div class="card-body ">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">{{room.name}}</h5>
+                                <p class="card-text">{{ room.slug }}</p>
+                            </div>
+                            <a href="{% url 'room' room.slug %}" class="btn btn-primary">JOIN</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock content %}
 
 
-<!-- {% url 'rooms:room' room.id %} -->
+
